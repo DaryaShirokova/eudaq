@@ -36,8 +36,7 @@ namespace eudaq {
     // pthread_create(&m_thread, &m_threadattr, LogCollector_thread, this);
     m_thread = std::unique_ptr<std::thread>(
         new std::thread(LogCollector_thread, this));
-    std::cout << "###### listenaddress=" << m_logserver->ConnectionString()
-              << std::endl
+    std::cout << "###### listenaddress (logCollector)=" << m_logserver->ConnectionString()
               << "       logfile=" << m_filename << std::endl;
     std::ostringstream os;
     os << "\n*** LogCollector started at " << Time::Current().Formatted()

@@ -335,9 +335,17 @@ Otherwise pack the data into a buffer using unsigned chars. The function passes 
   }
 
   TCPServer::TCPServer(const std::string &param)
-      : m_port(from_string(param, 44000)),
-        m_srvsock(socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)),
-        m_maxfd(m_srvsock) {
+      : m_srvsock(socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)),
+        m_maxfd(m_srvsock)
+  {
+      std::string port, host;
+      size_t i = param.find(":");
+      host = std::string(param, 0, i);
+      port = std::string(param, i + 1, param.length());
+
+      m_port = std::stoi(port);
+      m_host = host;
+
     if (m_srvsock == (SOCKET)-1)
       EUDAQ_THROW_NOLOG(LastSockErrorString(
           "Failed to create socket")); //$$ check if (SOCKET)-1 is correct
@@ -346,7 +354,6 @@ Otherwise pack the data into a buffer using unsigned chars. The function passes 
     FD_SET(m_srvsock, &m_fdset);
 
     setup_socket(m_srvsock);
-
     sockaddr_in addr;
     memset(&addr, 0, sizeof addr);
     addr.sin_family = AF_INET;
@@ -522,16 +529,7 @@ Otherwise pack the data into a buffer using unsigned chars. The function passes 
   }
 
   std::string TCPServer::ConnectionString() const {
-#ifdef WIN32
-    const char *host = getenv("computername");
-#else
-    const char *host = getenv("HOSTNAME");
-#endif
-
-    if (!host)
-      host = "localhost";
-    // gethostname(buf, sizeof buf);
-    return name + "://" + host + ":" + to_string(m_port);
+    return name + "://" + m_host + ":" + to_string(m_port);
   }
 
   TCPClient::TCPClient(const std::string &param)

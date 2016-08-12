@@ -440,6 +440,7 @@ namespace eudaq {
       }
     }
     // announce log collector to DC
+    std::cout<<"logaddr" << " " << m_logaddr << std::endl;
     if (m_ilog != (size_t)-1) {
       SendCommand("LOG", m_logaddr, id);
     }

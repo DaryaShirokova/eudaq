@@ -66,6 +66,7 @@ namespace eudaq {
 
   private:
     int m_port;
+    std::string m_host;
     SOCKET m_srvsock;
     SOCKET m_maxfd;
     fd_set m_fdset;

@@ -68,6 +68,8 @@ namespace eudaq {
       proto = std::string(name, 0, i);
       param = std::string(name, i + 3);
     }
+    //size_t j = param.find(":");
+
     map_t::const_iterator it = TransportMap().find(proto);
     if (it == TransportMap().end())
       EUDAQ_THROW("Unknown protocol: " + proto);
