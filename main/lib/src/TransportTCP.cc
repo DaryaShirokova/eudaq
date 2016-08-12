@@ -340,6 +340,8 @@ Otherwise pack the data into a buffer using unsigned chars. The function passes 
   {
       std::string port, host;
       size_t i = param.find(":");
+      if(i == std::string::npos)
+          EUDAQ_THROW("Failed to create a server. Check the syntax of -a option: HOSTIP:PORT_NUM");
       host = std::string(param, 0, i);
       port = std::string(param, i + 1, param.length());
 
