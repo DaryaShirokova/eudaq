@@ -2,10 +2,12 @@
 
 export RCPORT=44000
 export LCPORT=44002
+export DCPORT=44001
 [ "$1" != "" ] && RCPORT=$1
 
 export HOSTIP=127.0.0.1
 export LCIP=127.0.0.1
+export DCIP=127.0.0.1
 export TLUIP=127.0.0.1
 export HOSTNAME=127.0.0.1
 
@@ -60,7 +62,7 @@ sleep 2.0
 # DataCollector
 ###############
 printf '\033[22;33m\t TestDataCollector \033[0m \n'
-xterm -sb -sl 1000 -geom 80x10-480-900 -fn fixed -T "Data Collector" -e './TestDataCollector.exe -r tcp://$HOSTIP:$RCPORT' &
+xterm -sb -sl 1000 -geom 80x10-480-900 -fn fixed -T "Data Collector" -e './TestDataCollector.exe -r tcp://$HOSTIP:$RCPORT -a tcp://$DCIP:$DCPORT' &
 sleep 1.5
 ######################################################################
 # NI Producer
